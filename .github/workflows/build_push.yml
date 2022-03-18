@@ -32,11 +32,11 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # - name: Build and push docker image
       #   run: |
@@ -48,14 +48,6 @@ jobs:
       #     docker build -t $DOCKER_IMAGE .
       #     docker push $DOCKER_IMAGE
 
-      -
-        # GitHub Container Registry にログインする
-        name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          registry: isshi
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}      # secretで作成したものを指定
       -
         # イメージビルドしてGitHub Container Registry に pushする
         name: Push to DockerHub

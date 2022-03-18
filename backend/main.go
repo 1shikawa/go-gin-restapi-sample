@@ -15,3 +15,7 @@ func main() {
 
 	router.Run(":3000" )
 }
+
+func hello() string {
+	return "Hello Golang"
+}

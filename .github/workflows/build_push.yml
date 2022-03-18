@@ -13,11 +13,11 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      - name: Get dependencies
-        run: go install -v ./backend/
+      # - name: Get dependencies
+      #   run: go install -v ./backend/
 
       - name: Run Unit Tests
-        run: go test -v ./backend/
+        run: go test -v ./...
 
   docker-build:
     needs: ["test"]

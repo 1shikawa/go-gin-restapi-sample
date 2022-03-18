@@ -8,16 +8,20 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      # - name: Set up Go 1.18
-      #   uses: actions/setup-go@v1
-      #   with:
-      #     go-version: 1.18
+      - name: Set up Go 1.18
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.18
 
-      # - name: Get dependencies
-      #   run: go install -v ./backend/
+      - name: Get dependencies
+        run: |
+          cd backend
+          go install -v
 
-      # - name: Run Unit Tests
-      #   run: go test -v ./...
+      - name: Run Unit Tests
+        run: |
+          cd backend
+          run: go test -v
 
   docker-build:
     needs: ["test"]

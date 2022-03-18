@@ -36,9 +36,15 @@ func main() {
     MaxAge: 24 * time.Hour,
 }))
 
-	router.GET("/hello", func(c *gin.Context){
+	router.GET("/fuga", func(c *gin.Context){
 		c.JSON(200, gin.H{
-			"massage": "Hello World",
+			"massage": "Hello fuga",
+		})
+	})
+
+	router.GET("/hoge", func(c *gin.Context){
+		c.JSON(200, gin.H{
+			"massage": "Hello hoge",
 		})
 	})
 

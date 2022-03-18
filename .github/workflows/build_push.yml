@@ -23,7 +23,7 @@ jobs:
           cd backend
           go test -v
 
-  docker-build:
+  docker-build-push:
     needs: ["test"]
     runs-on: ubuntu-latest
     env:
@@ -32,18 +32,36 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      - name: Login to DockerHub
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # - name: Build and push docker image
+      #   run: |
+      #     TAG="latest"
+      #     DOCKER_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${DOCKER_IMAGE_NAME}:$TAG
+      #     echo "Docker image: ${DOCKER_IMAGE}"
+      #     docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
+      #     cd backend
+      #     docker build -t $DOCKER_IMAGE .
+      #     docker push $DOCKER_IMAGE
+
+      -
+        # GitHub Container Registry にログインする
+        name: Login to DockerHub
         uses: docker/login-action@v1
         with:
+          registry: isshi
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push docker image
-        run: |
-          TAG="latest"
-          DOCKER_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${DOCKER_IMAGE_NAME}:$TAG
-          echo "Docker image: ${DOCKER_IMAGE}"
-          docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
-          cd backend
-          docker build -t $DOCKER_IMAGE .
-          docker push $DOCKER_IMAGE
+          password: ${{ secrets.DOCKERHUB_TOKEN }}      # secretで作成したものを指定
+      -
+        # イメージビルドしてGitHub Container Registry に pushする
+        name: Push to DockerHub
+        uses: docker/build-push-action@v2
+        with:
+          # Dokcerfileのパス
+          context: ./backend
+          push: true
+          tags: ${{ github.sha }}

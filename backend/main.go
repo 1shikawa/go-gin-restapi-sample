@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"time"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
     router.Use(cors.New(cors.Config{
     // アクセスを許可したいアクセス元
     AllowOrigins: []string{
-        'http://localhost:4000',
+        "http://localhost:4000",
     },
     // アクセスを許可したいHTTPメソッド(以下の例だとPUTやDELETEはアクセスできません)
     AllowMethods: []string{

@@ -13,7 +13,7 @@ func main() {
     router.Use(cors.New(cors.Config{
     // アクセスを許可したいアクセス元
     AllowOrigins: []string{
-        "http://localhost:4000",
+        "http://localhost",
     },
     // アクセスを許可したいHTTPメソッド(以下の例だとPUTやDELETEはアクセスできません)
     AllowMethods: []string{
@@ -31,7 +31,7 @@ func main() {
         "Authorization",
     },
     // cookieなどの情報を必要とするかどうか
-    AllowCredentials: true,
+    AllowCredentials: false,
     // preflightリクエストの結果をキャッシュする時間
     MaxAge: 24 * time.Hour,
 }))

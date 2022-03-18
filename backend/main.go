@@ -9,7 +9,7 @@ func main() {
 
 	router.GET("/hello", func(c *gin.Context){
 		c.JSON(200, gin.H{
-			"massage": "Hello World ishikawa !!!!!!!",
+			"massage": "Hello World",
 		})
 	})
 

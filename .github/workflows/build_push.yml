@@ -16,8 +16,8 @@ jobs:
       # - name: Get dependencies
       #   run: go install -v ./backend/
 
-      - name: Run Unit Tests
-        run: go test -v ./...
+      # - name: Run Unit Tests
+      #   run: go test -v ./...
 
   docker-build:
     needs: ["test"]

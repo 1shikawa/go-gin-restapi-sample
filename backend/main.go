@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/cors"
+	"net/http"
 	"time"
+    "log"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -36,6 +39,7 @@ func main() {
     MaxAge: 24 * time.Hour,
 }))
 
+// ================== Rest API ==================
 	router.GET("/fuga", func(c *gin.Context){
 		c.JSON(200, gin.H{
 			"massage": "Hello fuga",
@@ -48,7 +52,27 @@ func main() {
 		})
 	})
 
-	router.Run(":3000" )
+
+// ================== Web APP ==================
+    // 自動的にファイルを返す
+    router.StaticFS("/static", http.Dir("static"))
+
+    // ルートならリダイレクト
+    router.GET("/", func(ctx *gin.Context){
+        ctx.Redirect(302, "/static/index.html")
+    })
+
+    // フォームの内容を受け取って返す
+    router.GET("/hello", func(ctx *gin.Context){
+        name := ctx.Query("name")
+        ctx.Header("Content-Type", "text/html; charset=UTF-8")
+        ctx.String(200, "<h1>Hello, " + name + "</h1>")
+    })
+
+	err := router.Run(":3000" )
+    if err != nil {
+        log.Fatal("サーバ起動に失敗", err)
+    }
 }
 
 func hello() string {
